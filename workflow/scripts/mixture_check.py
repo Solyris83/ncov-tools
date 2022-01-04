@@ -175,17 +175,18 @@ def resolve_iupac(code, fixed_base):
         return code # not ambiguous
     if code in iupac_map:
         (a, b) = iupac_map[code]
+        print("%s\t%s" % ( str(a),str(b) ))
         if a == fixed_base:
             return b
         elif b == fixed_base:
             return a
         else:
-            assert(False)
+            # assert(False)
             return None
     else:
         return None
         # triallelic
-        assert(False)
+        # assert(False)
 
 # load observed variants from the output of align2alleles.py
 def load_msa_alleles(alleles_fn):
@@ -203,7 +204,11 @@ def load_msa_alleles(alleles_fn):
             if ca == "N" or int(row['samples_with_allele']) == 1:
                 continue
             aa = resolve_iupac(ca, ra)
-
+            # MODIFIED!!! Check if aa returns None either trialelic or biallelic but REF is not in IUPAC
+            if aa is None :
+                print(row, file = sys.stderr )
+                continue
+            
             v = Variant("contig", int(row['pos']), ra, aa)
             out[sample][v] = ca
     return out
