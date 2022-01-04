@@ -20,7 +20,7 @@ rule make_amplicon_coverage:
     threads: 1
     shell:
         "echo -e \"reference_name\tstart\tend\tamplicon_id\tpool\tstrand\tread_count\tcovered_bases\tamplicon_length\tfraction_covered\" > {output};"
-        "bedtools coverage -a {input.bed} -b {input.bam} >> {output}"
+        "bedtools coverage -sorted -a {input.bed} -b {input.bam} >> {output}"
 
 # generate a bed file containing the mean depth across each amplicon for a sample
 rule make_amplicon_depth:
@@ -35,7 +35,7 @@ rule make_amplicon_depth:
     threads: 1
     shell:
         "echo -e \"reference_name\tstart\tend\tamplicon_id\tpool\tstrand\tmean_depth\" > {output};"
-        "bedtools coverage -mean -a {input.bed} -b {input.bam} >> {output}"
+        "bedtools coverage -sorted -mean -a {input.bed} -b {input.bam} >> {output}"
 
 # generate a bed file containing per-base coverage across each amplicon for a sample
 rule make_amplicon_base_coverage:
@@ -50,7 +50,7 @@ rule make_amplicon_base_coverage:
     threads: 1
     shell:
         "echo -e \"reference_name\tstart\tend\tamplicon_id\tpool\tstrand\tposition\tdepth\" > {output};"
-        "bedtools coverage -d -a {input.bed} -b {input.bam} >> {output}"
+        "bedtools coverage -sorted -d -a {input.bed} -b {input.bam} >> {output}"
 
 # generate a bed file containing per-base coverage across the entire genome
 rule make_genome_per_base_coverage:
@@ -64,7 +64,7 @@ rule make_genome_per_base_coverage:
     threads: 1
     shell:
         "echo -e \"reference_name\tstart\tend\tposition\tdepth\" > {output};"
-        "bedtools coverage -d -a {input.bed} -b {input.bam} >> {output}"
+        "bedtools coverage -sorted -d -a {input.bed} -b {input.bam} >> {output}"
 
 # format_pileup.py requires an indexed bam file, but the connor
 # pipeline doesn't create it by default. We can't assume
