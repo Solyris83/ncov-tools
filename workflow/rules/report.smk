@@ -44,11 +44,12 @@ rule make_mixture_report:
         fpileups="qc_sequencing/{prefix}_fpileups.fofn",
         alleles="qc_analysis/{prefix}_alleles.tsv"
     output:
-        "qc_reports/{prefix}_mixture_report.tsv"
+        "qc_reports/{prefix}_mixture_report.tsv",
+        "qc_reports/{prefix}_ERROR_allele.tsv"
     params:
         script=srcdir("../scripts/mixture_check.py")
     shell:
-        "python {params.script} --fpileup {input.fpileups} --alleles {input.alleles} > {output}"
+        "python {params.script} --fpileup {input.fpileups} --alleles {input.alleles} > {output[0]} 2>> {output[1]}"
 
 # make a simple report containing positions that frequently contain IUPAC ambiguity codes
 rule make_ambiguous_position_report:
