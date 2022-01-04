@@ -1,0 +1,56 @@
+# path to the top-level directory containing the analysis results
+data_root: "/mnt/volume1/run_ARTIC_V4/results/qc/data"
+
+# optionally the plots can have a "run name" prefix. If this is not defined the prefix will be "default"
+run_name: ARTIC_V4
+
+# the sequencing platform used, can be "oxford-nanopore" or "illumina"
+platform: "illumina"
+
+# path to the nCov reference genome
+reference_genome: "/home/ubuntu/software/artic-ncov2019/primer_schemes/nCoV-2019/V4/SARS-CoV-2.reference.fasta"
+
+# path to the file containing the amplicon regions (not the primer sites, the actual amplicons)
+amplicon_bed: "/home/ubuntu/software/artic-ncov2019/primer_schemes/nCoV-2019/V4/SARS-CoV-2.insert.bed"
+
+# path to the BED file containing the primers, this should follow the format downloaded from
+# the ARTIC repository
+primer_bed: "/home/ubuntu/software/artic-ncov2019/primer_schemes/nCoV-2019/V4/SARS-CoV-2.primer.bed"
+
+# the naming convention for the bam files
+# this can use the variables {data_root} (as above) and {sample}
+# As per the example above, this will expand to run_200430/sampleA.sorted.bam for sampleA
+#bam_pattern: "{data_root}/qc/data/{sample}.sorted.bam"
+#primer_trimmed_bam_pattern: "{data_root}/qc/data/{sample}.masked.sorted.bam"
+
+# the naming convention for the consensus sequences
+#consensus_pattern: "{data_root}/consensus/{sample}.fa"
+
+# the naming convention for the variants file, NF illumina runs typically use
+# "{data_root}/{sample}.variants.tsv and oxford nanopore runs use "{data_root}/{sample}.pass.vcf.gz"
+#variants_pattern: "{data_root}/masked_variants/{sample}.masked.filtered.tsv"
+
+# list the type of amplicon BED file that will be created from the "primer_bed".  This can include:
+# full -- amplicons including primers and overlaps listed in the primer BED file
+# no_primers -- amplicons including overlaps but with primers removed
+# unique_amplicons -- distinct amplicons regions with primers and overlapping regions removed
+bed_type: unique_amplicons
+primer_prefix: SARS-CoV-2
+
+# offset for the amplicons and primers
+offset: 0
+
+# minimum completeness threshold for inclusion to the SNP tree plot, if no entry
+# is provided the default is set to 0.75
+completeness_threshold: 0.9
+
+# full path the metadata file
+metadata: /mnt/volume1/run_ARTIC_V4/metaData_ARTIC_V4.tsv
+
+# full path to the ANNOVAR SARS-CoV-2 database files for annotating variants
+# sarscov2db: /path/to/annovar/db/sarscov2/files
+
+# user specifiable output directory 
+# defaults to just current working directory but otherwise
+# will write output files to the specified directory
+output_directory: "ncovQC_output_ARTIC_V4"
